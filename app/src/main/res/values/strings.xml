@@ -1,0 +1,7 @@
+<resources tools:ignore="ExtraTranslation" xmlns:tools="http://schemas.android.com/tools">
+    <string name="empty_string"></string>
+    <string name="app_name">SharinGame</string>
+    <string name="title_home">Accueil</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+</resources>

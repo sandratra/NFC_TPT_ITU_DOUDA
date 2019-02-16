@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:background="@drawable/background_header_gradient"
+        android:keepScreenOn="false"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/img_avatar"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="false"
+            android:contentDescription="TODO"
+            android:elevation="0dp"
+            app:srcCompat="@drawable/ic_sharingame" />
+
+        <TextView
+            android:id="@+id/txt_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@color/colorTextDefault"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical|left"
+            android:text="SharinGame" />
+    </LinearLayout>
+
+    <!-- include your activity_sharg.xml here  -->
+    <include layout="@layout/activity_sharg" />
+
+</LinearLayout>

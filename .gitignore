@@ -8,4 +8,8 @@
 .DS_Store
 /build
 /captures
+<<<<<<< Updated upstream
 .externalNativeBuild
+=======
+.externalNativeBuild
+>>>>>>> Stashed changes
