@@ -19,8 +19,9 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_sharingame"
-            android:maxHeight="50dp"/>
+            android:contentDescription="@android:string/unknownName"
+            android:maxHeight="50dp"
+            app:srcCompat="@drawable/ic_sharingame" />
 
         <TextView
             android:layout_width="match_parent"
@@ -35,10 +36,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:allowUndo="false"
             android:backgroundTint="@color/colorTextDefault"
             android:ems="10"
-            android:hint="éxemple@sharg.com"
-            android:inputType="textEmailAddress" />
+            android:hint="adresse@mail.com"
+            android:inputType="textEmailAddress"
+            android:autofillHints="" />
 
         <TextView
             android:layout_width="match_parent"
