@@ -27,9 +27,29 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Les jeux mis en avants"
+                android:text="@string/subtitle_first_games"
+                android:textSize="14sp"
                 tools:layout_editor_absoluteX="94dp"
                 tools:layout_editor_absoluteY="16dp" />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_first_game"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="@color/_transparent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jeu 1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jeu 2" />
+            </android.support.v7.widget.CardView>
+
         </LinearLayout>
     </ScrollView>
 
