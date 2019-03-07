@@ -59,6 +59,7 @@ public class LoginActivity extends Activity {
             if(user_name_text.isEmpty() || password_text.isEmpty())
             {
                 new DialogHelper(LoginActivity.this).showDialog(R.layout.popup_layer, DialogHelper.DIALOG_WARNING, "Veuillez vérifier que tous les champs ne sont pas vide.", null);
+                return;
             }
             else
             {

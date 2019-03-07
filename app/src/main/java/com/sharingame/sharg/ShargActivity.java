@@ -79,7 +79,7 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
     {
         //Notifier l’utilisateur
         Log.i("INFO", "PUSH COMPLETE");
-        new DialogHelper(this).showDialog(R.layout.popup_layer, DialogHelper.DIALOG_INFO, "Text NFC reçu: " + event.toString(), null);
+    new DialogHelper(this).showDialog(R.layout.popup_layer, DialogHelper.DIALOG_INFO, "Text NFC reçu: " + event.toString(), null);
     }
 
     @Override
