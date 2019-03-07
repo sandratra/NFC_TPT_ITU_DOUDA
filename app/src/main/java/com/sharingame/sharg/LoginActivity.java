@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.sharingame.entity.ShargModel;
 import com.sharingame.utility.LocalDB;
 import com.sharingame.utility.Message;
 import com.sharingame.utility.ShargWS;
@@ -64,11 +65,13 @@ public class LoginActivity extends Activity {
 
             //TODO: remove ws_test
 
-            String URI = "https://jsonplaceholder.typicode.com/todos/1";
-            ShargWS ws_test = new ShargWS(URI);
+            String target_api = "user";
+            String[] data = new String[]{"2"};
+            ShargWS ws_test = new ShargWS(target_api, data);
             try {
                 String res = ws_test.execute().get();
-                Log.i("RES_WS",res);
+                ShargModel obj = ws_test.FromJsonDataMapping(ShargModel.class, res);
+                Log.i("ID_MODEL", obj.getId());
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {

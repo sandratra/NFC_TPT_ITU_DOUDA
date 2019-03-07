@@ -1,6 +1,11 @@
 package com.sharingame.utility;
 
 import android.os.AsyncTask;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.sharingame.entity.DataJsonMapping;
+import com.sharingame.entity.ShargModel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,29 +17,36 @@ import java.net.URL;
 
 public class ShargWS extends AsyncTask<String, String, String> {
 
-    private String result;
-    private String url;
+    private String baseURL = "https://server-tptm2.herokuapp.com/api/";
+    private String api;
+    private String[] data;
 
-    public ShargWS(String url){
-        this.url = url;
-    }
-
-    public String getResult(){
-        return result;
+    public ShargWS(String api, String...data){
+        this.api = api;
+        this.data = data;
     }
 
     protected void onPreExecute() {
         super.onPreExecute();
     }
+    public <T extends ShargModel>T FromJsonDataMapping(Class<T> targetClass, String result) {
+        String minimal = result.replace("{\"data\":", "");
+        minimal = minimal.substring(0, minimal.length()-2);
+        Log.w("MINIMAL", minimal);
+        return new Gson().fromJson(minimal, targetClass);
+    }
+
+    public <T>T FromJsonSimple(Class<T> targetClass, String result) {
+        return new Gson().fromJson(result, targetClass);
+    }
 
     protected String doInBackground(String... params) {
-
-
         HttpURLConnection connection = null;
         BufferedReader reader = null;
-
         try {
-            URL url = new URL(this.url);
+            String api_url = this.baseURL + this.api + "/" + ObjectUtils.strJoin(data, "/");
+            Log.i("URL_WS",api_url);
+            URL url = new URL(api_url);
             connection = (HttpURLConnection) url.openConnection();
             connection.connect();
 
@@ -74,6 +86,5 @@ public class ShargWS extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        this.result = result;
     }
 }
