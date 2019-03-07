@@ -5,7 +5,6 @@ public class ShargModel {
     private String id;
 
     public ShargModel(){
-
     }
 
     public ShargModel(String id){

@@ -1,12 +1,12 @@
 package com.sharingame.utility;
 
 public abstract class ObjectUtils {
-    public static String strJoin(String[] aArr, String sSep) {
+    public static String joinString(String[] array, String separator) {
         StringBuilder sbStr = new StringBuilder();
-        for (int i = 0, il = aArr.length; i < il; i++) {
+        for (int i = 0, il = array.length; i < il; i++) {
             if (i > 0)
-                sbStr.append(sSep);
-            sbStr.append(aArr[i]);
+                sbStr.append(separator);
+            sbStr.append(array[i]);
         }
         return sbStr.toString();
     }

@@ -2,8 +2,10 @@ package com.sharingame.sharg;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 
 public class SplashScreen extends Activity {
 
@@ -14,6 +16,10 @@ public class SplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splashscreen_activity);
 
+        PackageManager manager = this.getPackageManager();
+        if (!manager.hasSystemFeature(PackageManager.FEATURE_NFC)) {
+            com.sharingame.utility.Message.message(getApplicationContext(),"NFC indisponible!");
+        }
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {

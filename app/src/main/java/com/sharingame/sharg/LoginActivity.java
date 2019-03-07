@@ -1,7 +1,9 @@
 package com.sharingame.sharg;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.sharingame.entity.ShargModel;
+import com.sharingame.utility.DialogHelper;
 import com.sharingame.utility.LocalDB;
 import com.sharingame.utility.Message;
 import com.sharingame.utility.ShargWS;
@@ -32,6 +35,15 @@ public class LoginActivity extends Activity {
         initComponents();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (!nfcAdapter.isNdefPushEnabled()){
+            new DialogHelper(this).showDialog(R.layout.popup_layer, DialogHelper.DIALOG_INFO, "Veuillez activer l'option Beam de votre smartphone pour pouvoir utiliser les fonctionnalités NFC", null);
+        }
+    }
+
     private void initComponents(){
         user_name = (EditText)findViewById(R.id.input_login);
         password = (EditText)findViewById(R.id.input_pwd);
@@ -46,7 +58,7 @@ public class LoginActivity extends Activity {
             String password_text = password.getText().toString();
             if(user_name_text.isEmpty() || password_text.isEmpty())
             {
-                Message.message(getApplicationContext(),"Vérifiez les champs vides!");
+                new DialogHelper(LoginActivity.this).showDialog(R.layout.popup_layer, DialogHelper.DIALOG_WARNING, "Veuillez vérifier que tous les champs ne sont pas vide.", null);
             }
             else
             {
@@ -65,21 +77,19 @@ public class LoginActivity extends Activity {
 
             //TODO: remove ws_test
 
-            String target_api = "user";
+            /*String target_api = "user";
             String[] data = new String[]{"2"};
             ShargWS ws_test = new ShargWS(target_api, data);
             try {
                 String res = ws_test.execute().get();
                 ShargModel obj = ws_test.FromJsonDataMapping(ShargModel.class, res);
                 Log.i("ID_MODEL", obj.getId());
-            } catch (ExecutionException e) {
+            } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            }*/
 
-            //Intent myIntent = new Intent(LoginActivity.this, ShargActivity.class);
-            //startActivity(myIntent);
+            Intent myIntent = new Intent(LoginActivity.this, ShargActivity.class);
+            startActivity(myIntent);
         }
     };
 }

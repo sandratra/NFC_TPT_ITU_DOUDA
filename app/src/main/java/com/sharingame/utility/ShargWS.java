@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.sharingame.entity.DataJsonMapping;
 import com.sharingame.entity.ShargModel;
 
 import java.io.BufferedReader;
@@ -29,10 +28,11 @@ public class ShargWS extends AsyncTask<String, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
     }
+
     public <T extends ShargModel>T FromJsonDataMapping(Class<T> targetClass, String result) {
         String minimal = result.replace("{\"data\":", "");
         minimal = minimal.substring(0, minimal.length()-2);
-        Log.w("MINIMAL", minimal);
+        //Log.w("MINIMAL", minimal);
         return new Gson().fromJson(minimal, targetClass);
     }
 
@@ -44,7 +44,7 @@ public class ShargWS extends AsyncTask<String, String, String> {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
         try {
-            String api_url = this.baseURL + this.api + "/" + ObjectUtils.strJoin(data, "/");
+            String api_url = this.baseURL + this.api + "/" + ObjectUtils.joinString(data, "/");
             Log.i("URL_WS",api_url);
             URL url = new URL(api_url);
             connection = (HttpURLConnection) url.openConnection();
