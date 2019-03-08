@@ -1,31 +1,33 @@
 package com.sharingame.sharg;
 
-import android.app.PendingIntent;
+import android.app.Activity;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.sharingame.utility.CustomPagerAdapter;
 import com.sharingame.utility.DialogHelper;
 import com.sharingame.utility.Message;
 import com.sharingame.utility.NFCHelper;
 
-public class ShargActivity extends AppCompatActivity implements NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
+public class ShargActivity extends Activity implements NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
 
     private ViewPager mViewPager;
+    NfcAdapter nfcAdapter;
+    private static final int MESSAGE_SENT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +44,15 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
-        nfcAdapter.setNdefPushMessageCallback(this, this);
-        nfcAdapter.setOnNdefPushCompleteCallback(this, this);
+        //nfcAdapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (nfcAdapter == null) {
+            new DialogHelper(this).showDialog(R.layout.popup_layer,"NFC " + DialogHelper.DIALOG_WARNING, "NFC n'est pas disponible sur cet appareil.", null);
+        }
+        else {
+            nfcAdapter.setNdefPushMessageCallback(this, this);
+            nfcAdapter.setOnNdefPushCompleteCallback(this, this);
+        }
     }
 
     @Override
@@ -62,6 +70,21 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
         }
     }
 
+    void processIntent(Intent intent) {
+        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+        // only one message sent during the beam
+        NdefMessage msg = (NdefMessage) rawMsgs[0];
+        // record 0 contains the MIME type, record 1 is the AAR, if present
+        //mInfoText.setText(new String(msg.getRecords()[0].getPayload()));
+        Message.message(getApplicationContext(),new String(msg.getRecords()[0].getPayload()));
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        // onResume gets called after this to handle the intent
+        setIntent(intent);
+    }
+
     @Override
     //Cette méthode est appelée quand le périphérique NFC P2P est détecté
     public NdefMessage createNdefMessage(NfcEvent event) {
@@ -76,9 +99,22 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
     {
         //Notifier l’utilisateur
         Log.i("INFO", "PUSH COMPLETE");
+        mHandler.obtainMessage(MESSAGE_SENT).sendToTarget();
         //new DialogHelper(this).showDialog(R.layout.popup_layer, DialogHelper.DIALOG_INFO, "Text NFC reçu: " + event.toString(), null);
-        Message.message(getApplicationContext(),"Impossible de sauvegarder les champs!");
+        //Message.message(getApplicationContext(),"Impossible de sauvegarder les champs!");
     }
+
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case MESSAGE_SENT:
+                    Toast.makeText(getApplicationContext(), "Message sent!", Toast.LENGTH_LONG).show();
+                    break;
+            }
+        }
+    };
+
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
