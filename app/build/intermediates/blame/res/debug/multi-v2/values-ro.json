@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\MBDS\\Mobile\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ro\\values-ro.xml",
+            "outputFile": "D:\\MBDS\\NFC\\NFC_TPT_ITU_DOUDA\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ro\\values-ro.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\PC\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0-alpha1.aar\\5a529e826af15f7223ce01906fdc1373\\res\\values-ro\\values-ro.xml",
+                    "source": "C:\\Users\\hobia\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0-alpha1.aar\\7a194f0f930551bd4054319d56579e17\\res\\values-ro\\values-ro.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\PC\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-28.0.0-alpha1.aar\\6ee9cd68495ce77d472d17567b08bbc4\\res\\values-ro\\values-ro.xml",
+                    "source": "C:\\Users\\hobia\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-28.0.0-alpha1.aar\\c35e5c8fffd89e2e353e6497960b648f\\res\\values-ro\\values-ro.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

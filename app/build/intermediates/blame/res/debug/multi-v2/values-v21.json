@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\MBDS\\Mobile\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v21\\values-v21.xml",
+            "outputFile": "D:\\MBDS\\NFC\\NFC_TPT_ITU_DOUDA\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v21\\values-v21.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\PC\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-28.0.0-alpha1.aar\\6ee9cd68495ce77d472d17567b08bbc4\\res\\values-v21\\values-v21.xml",
+                    "source": "C:\\Users\\hobia\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-28.0.0-alpha1.aar\\c35e5c8fffd89e2e353e6497960b648f\\res\\values-v21\\values-v21.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,13",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4",
@@ -14,16 +14,16 @@
                         "endOffsets": "154,218,285,349,465,591,717,845,1017,1355"
                     },
                     "to": {
-                        "startLines": "2,3,4,5,263,264,265,266,295,298",
+                        "startLines": "2,3,4,5,263,264,271,275,307,310",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,159,223,290,19262,19378,19504,19630,21195,21367",
-                        "endLines": "2,3,4,5,263,264,265,266,297,302",
+                        "startOffsets": "55,159,223,290,19262,19378,19835,20129,21861,22033",
+                        "endLines": "2,3,4,5,263,264,271,275,309,314",
                         "endColumns": "103,63,66,63,115,125,125,127,12,12",
-                        "endOffsets": "154,218,285,349,19373,19499,19625,19753,21362,21700"
+                        "endOffsets": "154,218,285,349,19373,19499,19956,20252,22028,22366"
                     }
                 },
                 {
-                    "source": "C:\\Users\\PC\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0-alpha1.aar\\5a529e826af15f7223ce01906fdc1373\\res\\values-v21\\values-v21.xml",
+                    "source": "C:\\Users\\hobia\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0-alpha1.aar\\7a194f0f930551bd4054319d56579e17\\res\\values-v21\\values-v21.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,17,19,20,21,22,24,26,27,28,29,30,32,34,36,38,40,42,43,48,50,52,53,54,56,58,59,60,61,62,63,107,110,154,157,160,162,164,166,169,171,174,175,176,179,180,181,182,183,184,187,188,190,192,194,196,200,202,203,204,205,207,211,213,215,216,217,218,219,221,222,223,233,234,235,247",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -42,7 +42,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\PC\\.gradle\\caches\\transforms-1\\files-1.1\\design-typography-28.0.0-alpha1.aar\\306f5a35fecc280270c1d04ee4524ec3\\res\\values-v21\\values-v21.xml",
+                    "source": "C:\\Users\\hobia\\.gradle\\caches\\transforms-1\\files-1.1\\design-typography-28.0.0-alpha1.aar\\c58451ad210b913e9b6ac3de89f50d7e\\res\\values-v21\\values-v21.xml",
                     "from": {
                         "startLines": "2,9,16,23",
                         "startColumns": "4,4,4,4",
@@ -52,12 +52,31 @@
                         "endOffsets": "410,767,1121,1487"
                     },
                     "to": {
-                        "startLines": "267,274,281,288",
+                        "startLines": "279,286,293,300",
                         "startColumns": "4,4,4,4",
-                        "startOffsets": "19758,20118,20475,20829",
-                        "endLines": "273,280,287,294",
+                        "startOffsets": "20424,20784,21141,21495",
+                        "endLines": "285,292,299,306",
                         "endColumns": "10,10,10,10",
-                        "endOffsets": "20113,20470,20824,21190"
+                        "endOffsets": "20779,21136,21490,21856"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\hobia\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-28.0.0-alpha1.aar\\734cff0da59986a8989b0e9ae5c6691d\\res\\values-v21\\values-v21.xml",
+                    "from": {
+                        "startLines": "2,5,8,11",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,223,386,554",
+                        "endLines": "4,7,10,13",
+                        "endColumns": "12,12,12,12",
+                        "endOffsets": "218,381,549,716"
+                    },
+                    "to": {
+                        "startLines": "265,268,272,276",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "19504,19672,19961,20257",
+                        "endLines": "267,270,274,278",
+                        "endColumns": "12,12,12,12",
+                        "endOffsets": "19667,19830,20124,20419"
                     }
                 }
             ]
