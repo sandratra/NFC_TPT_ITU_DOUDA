@@ -1,4 +1,0 @@
-#Thu Mar 07 16:10:54 MSK 2019
-base.0=D\:\\MBDS\\NFC_TPT_ITU_DOUDA\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\2
-path.0=classes.dex
-renamed.0=classes.dex

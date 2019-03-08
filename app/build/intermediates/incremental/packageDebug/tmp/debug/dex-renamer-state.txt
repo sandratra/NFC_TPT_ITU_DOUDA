@@ -1,7 +1,0 @@
-#Thu Mar 07 22:45:11 EAT 2019
-base.0=D\:\\MBDS\\NFC\\NFC_TPT_ITU_DOUDA\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out
-path.1=classes.dex
-renamed.1=classes2.dex
-path.0=classes.dex
-renamed.0=classes.dex
-base.1=D\:\\MBDS\\NFC\\NFC_TPT_ITU_DOUDA\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\out
