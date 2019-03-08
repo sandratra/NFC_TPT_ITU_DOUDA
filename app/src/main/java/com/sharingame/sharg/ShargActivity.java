@@ -20,13 +20,12 @@ import android.view.View;
 
 import com.sharingame.utility.CustomPagerAdapter;
 import com.sharingame.utility.DialogHelper;
+import com.sharingame.utility.Message;
 import com.sharingame.utility.NFCHelper;
 
 public class ShargActivity extends AppCompatActivity implements NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
 
     private ViewPager mViewPager;
-
-    NfcAdapter nfcAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        nfcAdapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
         nfcAdapter.setNdefPushMessageCallback(this, this);
         nfcAdapter.setOnNdefPushCompleteCallback(this, this);
     }
@@ -55,10 +54,9 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
         Log.i("INFO", "ONRESUME: " + intent.getAction());
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             Parcelable[] rawMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-
             NdefMessage message = (NdefMessage) rawMessages[0]; // only one message transferred
-            new DialogHelper(this).showDialog(R.layout.popup_layer,"NFC " + DialogHelper.DIALOG_INFO, new String(message.getRecords()[0].getPayload()), null);
-
+            //new DialogHelper(this).showDialog(R.layout.popup_layer,"NFC " + DialogHelper.DIALOG_INFO, new String(message.getRecords()[0].getPayload()), null);
+            Message.message(getApplicationContext(),"Onresume OK action intent!");
         } else{
             Log.i("NFC_WAITING","...");
         }
@@ -68,8 +66,7 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
     //Cette méthode est appelée quand le périphérique NFC P2P est détecté
     public NdefMessage createNdefMessage(NfcEvent event) {
         Log.i("INFO", "createNdefMessage");
-        //Utilisation de la méthode crée précédemment :
-        NdefMessage msg = NFCHelper.createMyNdefMessage("TEST NFC!", "text/html");
+        NdefMessage msg = NFCHelper.createMyNdefMessage("TEST NFC!", "application/org.sharg.nfc.tpt");
         return msg;
     }
 
@@ -79,7 +76,8 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
     {
         //Notifier l’utilisateur
         Log.i("INFO", "PUSH COMPLETE");
-    new DialogHelper(this).showDialog(R.layout.popup_layer, DialogHelper.DIALOG_INFO, "Text NFC reçu: " + event.toString(), null);
+        //new DialogHelper(this).showDialog(R.layout.popup_layer, DialogHelper.DIALOG_INFO, "Text NFC reçu: " + event.toString(), null);
+        Message.message(getApplicationContext(),"Impossible de sauvegarder les champs!");
     }
 
     @Override
