@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashScreen">
+
+    <activity
+        android:id="@+id/splashScreen"
+        android:name="com.sharingame.sharg.SplashScreen"
+        android:label="splashscreen_activity"
+        tools:layout="@layout/splashscreen_activity" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.sharingame.sharg.LoginActivity"
+        android:label="login_activity"
+        tools:layout="@layout/login_activity" />
+    <activity
+        android:id="@+id/shargActivity"
+        android:name="com.sharingame.sharg.ShargActivity"
+        android:label="main_activity"
+        tools:layout="@layout/main_activity" />
+</navigation>

@@ -10,7 +10,12 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -18,45 +23,47 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.sharingame.sharg.fragment.UserFragmentGames;
+import com.sharingame.sharg.fragment.UserFragmentProfile;
 import com.sharingame.utility.CustomPagerAdapter;
 import com.sharingame.utility.DialogHelper;
 import com.sharingame.utility.Message;
 import com.sharingame.utility.NFCHelper;
 
-public class ShargActivity extends Activity implements NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
+public class ShargActivity extends AppCompatActivity implements NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
 
-    private ViewPager mViewPager;
+    ViewPager mViewPager;
     NfcAdapter nfcAdapter;
+    TabLayout tabLayout;
+
     private static final int MESSAGE_SENT = 1;
 
+    //region Overrides
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        mViewPager = findViewById(R.id.container);
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(new CustomPagerAdapter(this));
-
         mViewPager.setOnTouchListener(mOnViewPagerTouchListener);
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        //nfcAdapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter == null) {
-            new DialogHelper(this).showDialog(R.layout.popup_layer,"NFC " + DialogHelper.DIALOG_WARNING, "NFC n'est pas disponible sur cet appareil.", null);
-        }
-        else {
+            new DialogHelper(this).showDialog(R.layout.popup_layer, "NFC " + DialogHelper.DIALOG_WARNING, "NFC n'est pas disponible sur cet appareil.", null);
+        } else {
             nfcAdapter.setNdefPushMessageCallback(this, this);
             nfcAdapter.setOnNdefPushCompleteCallback(this, this);
         }
+
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
         Intent intent = getIntent();
         Log.i("INFO", "ONRESUME: " + intent.getAction());
@@ -66,17 +73,8 @@ public class ShargActivity extends Activity implements NfcAdapter.CreateNdefMess
             //new DialogHelper(this).showDialog(R.layout.popup_layer,"NFC " + DialogHelper.DIALOG_INFO, new String(message.getRecords()[0].getPayload()), null);
             Message.message(getApplicationContext(),"Onresume OK action intent: " + new String(message.getRecords()[0].getPayload()));
         } else{
-            Log.i("NFC_WAITING","...");
+            Log.w("NFC_WAITING","...");
         }
-    }
-
-    void processIntent(Intent intent) {
-        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-        // only one message sent during the beam
-        NdefMessage msg = (NdefMessage) rawMsgs[0];
-        // record 0 contains the MIME type, record 1 is the AAR, if present
-        //mInfoText.setText(new String(msg.getRecords()[0].getPayload()));
-        Message.message(getApplicationContext(),new String(msg.getRecords()[0].getPayload()));
     }
 
     @Override
@@ -86,7 +84,6 @@ public class ShargActivity extends Activity implements NfcAdapter.CreateNdefMess
     }
 
     @Override
-    //Cette méthode est appelée quand le périphérique NFC P2P est détecté
     public NdefMessage createNdefMessage(NfcEvent event) {
         Log.i("INFO", "createNdefMessage");
         NdefMessage msg = NFCHelper.createMyNdefMessage("TEST NFC!", "application/org.sharg.nfc.tpt");
@@ -94,7 +91,6 @@ public class ShargActivity extends Activity implements NfcAdapter.CreateNdefMess
     }
 
     @Override
-    //Cette méthode est appelée lorsque le message a été réceptionné
     public void onNdefPushComplete(NfcEvent event)
     {
         //Notifier l’utilisateur
@@ -104,6 +100,17 @@ public class ShargActivity extends Activity implements NfcAdapter.CreateNdefMess
         //Message.message(getApplicationContext(),"Impossible de sauvegarder les champs!");
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode){
+            case KeyEvent.KEYCODE_BACK:
+                return false;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+    //endregion
+
+    //region Listeners
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
@@ -114,16 +121,6 @@ public class ShargActivity extends Activity implements NfcAdapter.CreateNdefMess
             }
         }
     };
-
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        switch (keyCode){
-            case KeyEvent.KEYCODE_BACK:
-                return false;
-        }
-        return super.onKeyUp(keyCode, event);
-    }
 
     private View.OnTouchListener mOnViewPagerTouchListener = new View.OnTouchListener() {
         @Override
@@ -152,9 +149,58 @@ public class ShargActivity extends Activity implements NfcAdapter.CreateNdefMess
                     return true;
                 case R.id.navigation_dashboard:
                     mViewPager.setCurrentItem(2,false);
+                    tabLayout = findViewById(R.id.fragment_user_tab_layout);
+                    tabLayout.clearOnTabSelectedListeners();
+                    tabLayout.addOnTabSelectedListener(onTabLayoutListener);
+                    initSelectedTab(0);
                     return true;
             }
             return false;
         }
     };
+
+    private TabLayout.OnTabSelectedListener onTabLayoutListener = new TabLayout.OnTabSelectedListener(){
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            initSelectedTab(tab.getPosition());
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
+
+        }
+    };
+    //endregion
+
+    void processIntent(Intent intent) {
+        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+        // only one message sent during the beam
+        NdefMessage msg = (NdefMessage) rawMsgs[0];
+        // record 0 contains the MIME type, record 1 is the AAR, if present
+        //mInfoText.setText(new String(msg.getRecords()[0].getPayload()));
+        Message.message(getApplicationContext(),new String(msg.getRecords()[0].getPayload()));
+    }
+
+    void initSelectedTab(int index){
+        Fragment fragment = null;
+        switch (index) {
+            case 0:
+                fragment = new UserFragmentProfile();
+                break;
+            case 1:
+                fragment = new UserFragmentGames();
+                break;
+        }
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_user_layout, fragment);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.commit();
+        //new DialogHelper(this).showDialog(R.layout.popup_layer,"TEST_POPUP_HELPER " + DialogHelper.DIALOG_INFO, "Mande ve izy zany?", null);
+    }
 }

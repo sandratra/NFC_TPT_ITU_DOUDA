@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.sharingame.data.MStorage;
 import com.sharingame.entity.ShargModel;
+import com.sharingame.entity.User;
 import com.sharingame.utility.DialogHelper;
 import com.sharingame.utility.LocalDB;
 import com.sharingame.utility.Message;
@@ -42,6 +44,14 @@ public class LoginActivity extends Activity {
         if (!nfcAdapter.isNdefPushEnabled()){
             new DialogHelper(this).showDialog(R.layout.popup_layer, DialogHelper.DIALOG_INFO, "Veuillez activer l'option Beam de votre smartphone pour pouvoir utiliser les fonctionnalités NFC", null);
         }
+
+        //TODO: remove these lines before production
+        User test_user = new User();
+        test_user.setName("RAKOTO");
+        test_user.setLastname("Rabe");
+        test_user.setUsername("_rakotobe_");
+        test_user.setEmail("koto@test.com");
+        MStorage.MySelf.setProfile(test_user);
     }
 
     private void initComponents(){
@@ -59,7 +69,7 @@ public class LoginActivity extends Activity {
             if(user_name_text.isEmpty() || password_text.isEmpty())
             {
                 new DialogHelper(LoginActivity.this).showDialog(R.layout.popup_layer, DialogHelper.DIALOG_WARNING, "Veuillez vérifier que tous les champs ne sont pas vide.", null);
-                return;
+                //return;
             }
             else
             {
