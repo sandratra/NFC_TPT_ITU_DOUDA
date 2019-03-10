@@ -64,7 +64,7 @@ public class ShargActivity extends Activity implements NfcAdapter.CreateNdefMess
             Parcelable[] rawMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             NdefMessage message = (NdefMessage) rawMessages[0]; // only one message transferred
             //new DialogHelper(this).showDialog(R.layout.popup_layer,"NFC " + DialogHelper.DIALOG_INFO, new String(message.getRecords()[0].getPayload()), null);
-            Message.message(getApplicationContext(),"Onresume OK action intent!");
+            Message.message(getApplicationContext(),"Onresume OK action intent: " + new String(message.getRecords()[0].getPayload()));
         } else{
             Log.i("NFC_WAITING","...");
         }

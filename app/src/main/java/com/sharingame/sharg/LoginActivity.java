@@ -87,7 +87,7 @@ public class LoginActivity extends Activity {
                 Log.i("ID_MODEL", obj.getId());
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
-            }*/
+            }/**/
 
             Intent myIntent = new Intent(LoginActivity.this, ShargActivity.class);
             startActivity(myIntent);
