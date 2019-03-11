@@ -1,5 +1,6 @@
 package com.sharingame.entity;
 
+import java.lang.reflect.GenericArrayType;
 import java.util.Date;
 
 public class Game extends ShargModel {
@@ -9,6 +10,11 @@ public class Game extends ShargModel {
     private boolean validAdmin;
     private String link;
     private int usersId;
+
+    public Game(String title, String description){
+        this.setTitle(title);
+        this.setDescription(description);
+    }
 
     public String getTitle() {
         return title;

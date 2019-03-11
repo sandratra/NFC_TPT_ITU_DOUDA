@@ -1,0 +1,17 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.sharingame.ui.UIGame
+        android:id="@+id/ui_game_element"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimaryDark"
+        app:labelColor="#FFFFFF"
+        app:iconSize="60dp"
+        app:mIcon="@android:drawable/ic_menu_add"
+        app:label="UIGAME_TITLE"/>
+
+</FrameLayout>

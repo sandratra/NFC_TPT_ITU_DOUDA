@@ -1,0 +1,8 @@
+<resources>
+    <declare-styleable name="UIGame">
+        <attr name="label" format="string" />
+        <attr name="labelColor" format="color" />
+        <attr name="iconSize" format="dimension" />
+        <attr name="mIcon" format="color|reference" />
+    </declare-styleable>
+</resources>

@@ -3,6 +3,7 @@ package com.sharingame.viewmodel;
 import com.sharingame.entity.User;
 
 public class UserProfile {
+
     private User profile;
     private ViewGame[] games;
 
@@ -16,5 +17,13 @@ public class UserProfile {
 
     public User getProfile(){
         return profile;
+    }
+
+    public ViewGame[] getGames() {
+        return games;
+    }
+
+    public void setGames(ViewGame[] games) {
+        this.games = games;
     }
 }
