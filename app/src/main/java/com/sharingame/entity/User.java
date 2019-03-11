@@ -1,5 +1,7 @@
 package com.sharingame.entity;
 
+import android.support.annotation.Nullable;
+
 import java.util.Date;
 
 public class User extends ShargModel {
@@ -70,5 +72,10 @@ public class User extends ShargModel {
 
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        return getId().equals(((User)obj).getId());
     }
 }

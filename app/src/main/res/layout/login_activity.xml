@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:theme="@style/AppTheme"
-    android:background="@drawable/background_gradient"
-    tools:ignore="MissingDefaultResource">
+    android:background="@drawable/background_gradient">
 
     <LinearLayout
         android:layout_width="299dp"
@@ -17,8 +15,10 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_sharingame"
             android:contentDescription="@android:string/unknownName"
             android:maxHeight="50dp"
             app:srcCompat="@drawable/ic_sharingame" />
@@ -66,18 +66,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent"
-            android:text="Remember me"
+            android:text="Se souvenir de moi"
             android:textColor="@color/colorTextDefault" />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_login"
-            style="@style/ButtonStyleOne"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="right"
-            android:layout_margin="5dp"
-            android:text="Log in" />
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:text="S'identifier"
+            android:theme="@style/AppTheme.ButtonOne" />
 
     </LinearLayout>
 </RelativeLayout>

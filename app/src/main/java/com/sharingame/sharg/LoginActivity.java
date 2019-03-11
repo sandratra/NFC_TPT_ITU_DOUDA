@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +27,7 @@ public class LoginActivity extends Activity {
 
     EditText user_name;
     EditText password;
-    Button btn_login;
+    AppCompatButton btn_login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +48,19 @@ public class LoginActivity extends Activity {
 
         //TODO: remove these lines before production
         User test_user = new User();
+        test_user.setId("47");
         test_user.setName("RAKOTO");
         test_user.setLastname("Rabe");
         test_user.setUsername("_rakotobe_");
         test_user.setEmail("koto@test.com");
+        test_user.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
         MStorage.MySelf.setProfile(test_user);
     }
 
     private void initComponents(){
-        user_name = (EditText)findViewById(R.id.input_login);
-        password = (EditText)findViewById(R.id.input_pwd);
-        btn_login = (Button)findViewById(R.id.btn_login);
+        user_name = findViewById(R.id.input_login);
+        password = findViewById(R.id.input_pwd);
+        btn_login = findViewById(R.id.btn_login);
 
         btn_login.setOnClickListener(on_login);
     }
