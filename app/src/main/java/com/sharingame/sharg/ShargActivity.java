@@ -23,12 +23,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.sharingame.data.MStorage;
+import com.sharingame.entity.User;
 import com.sharingame.sharg.fragment.UserFragmentGames;
 import com.sharingame.sharg.fragment.UserFragmentProfile;
 import com.sharingame.utility.CustomPagerAdapter;
 import com.sharingame.utility.DialogHelper;
 import com.sharingame.utility.Message;
 import com.sharingame.utility.NFCHelper;
+import com.sharingame.utility.ObjectUtils;
 
 public class ShargActivity extends AppCompatActivity implements NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
 
@@ -70,8 +73,13 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             Parcelable[] rawMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             NdefMessage message = (NdefMessage) rawMessages[0]; // only one message transferred
-            new DialogHelper(this).showDialog(R.layout.popup_layer,"NFC " + DialogHelper.DIALOG_INFO,"DATA: " +  new String(message.getRecords()[0].getPayload()), null);
-            //Message.message(getApplicationContext(),"Onresume OK action intent: " + new String(message.getRecords()[0].getPayload()));
+            //new DialogHelper(this).showDialog(R.layout.popup_layer,"NFC " + DialogHelper.DIALOG_INFO,"DATA: " +  new String(message.getRecords()[0].getPayload()), null);
+            mViewPager.setCurrentItem(2,false);
+            //tabLayout = findViewById(R.id.fragment_user_tab_layout);
+            //tabLayout.clearOnTabSelectedListeners();
+            //tabLayout.addOnTabSelectedListener(onTabLayoutListener);
+            UserFragmentProfile.selectedUserProfil = ObjectUtils.FromJsonSimple(User.class, new String(message.getRecords()[0].getPayload()));
+            initSelectedTab(0);
         } else{
             Log.w("NFC_WAITING","...");
         }
@@ -86,7 +94,7 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
     @Override
     public NdefMessage createNdefMessage(NfcEvent event) {
         Log.i("INFO", "createNdefMessage");
-        NdefMessage msg = NFCHelper.createMyNdefMessage("TEST NFC!", "application/org.sharg.nfc.tpt");
+        NdefMessage msg = NFCHelper.createMyNdefMessage(ObjectUtils.ToJsonSimple(MStorage.MySelf.getProfile()), "application/org.sharg.nfc.tpt");
         return msg;
     }
 
@@ -116,7 +124,8 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case MESSAGE_SENT:
-                    Toast.makeText(getApplicationContext(), "Message envoyé!", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "Message envoyé!", Toast.LENGTH_LONG).show();
+                    new DialogHelper(ShargActivity.this).showDialog(R.layout.popup_layer, DialogHelper.DIALOG_INFO, "Votre requête de demande d'ami a été envoyée!", null);
                     break;
             }
         }
@@ -152,6 +161,7 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
                     tabLayout = findViewById(R.id.fragment_user_tab_layout);
                     tabLayout.clearOnTabSelectedListeners();
                     tabLayout.addOnTabSelectedListener(onTabLayoutListener);
+                    UserFragmentProfile.selectedUserProfil = MStorage.MySelf.getProfile();
                     initSelectedTab(0);
                     return true;
             }

@@ -20,6 +20,8 @@ public class UserFragmentProfile extends Fragment {
     TextView pseudo, email, description, fullName;
     AppCompatButton addFriendButton;
 
+    public static User selectedUserProfil = null;
+
     public UserFragmentProfile(){
 
     }
@@ -38,7 +40,7 @@ public class UserFragmentProfile extends Fragment {
         description = v.findViewById(R.id.profile_user_description);
         fullName = v.findViewById(R.id.profile_user_name);
         addFriendButton = v.findViewById(R.id.profile_user_btn_add_friend);
-        loadData(MStorage.MySelf.getProfile());
+        loadData(selectedUserProfil);
         return v;
     }
 
@@ -47,7 +49,7 @@ public class UserFragmentProfile extends Fragment {
         email.setText(user.getEmail());
         description.setText(user.getDescription());
         fullName.setText(user.getName() + " " + user.getLastname());
-        addFriendButton.setEnabled(isMyFriend(user));
+        addFriendButton.setEnabled(!isMyFriend(user));
     }
 
     public boolean isMyFriend(User user){

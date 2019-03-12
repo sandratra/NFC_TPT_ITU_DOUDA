@@ -1,24 +1,22 @@
 package com.sharingame.sharg;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.sharingame.data.MStorage;
-import com.sharingame.entity.ShargModel;
 import com.sharingame.entity.User;
 import com.sharingame.utility.DialogHelper;
 import com.sharingame.utility.LocalDB;
-import com.sharingame.utility.Message;
+import com.sharingame.utility.NameValuePair;
+import com.sharingame.utility.ObjectUtils;
 import com.sharingame.utility.ShargWS;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends Activity {
@@ -72,38 +70,31 @@ public class LoginActivity extends Activity {
             if(user_name_text.isEmpty() || password_text.isEmpty())
             {
                 new DialogHelper(LoginActivity.this).showDialog(R.layout.popup_layer, DialogHelper.DIALOG_WARNING, "Veuillez vérifier que tous les champs ne sont pas vide.", null);
-                //return;
+                return;
             }
             else
             {
-                long id = dbHelper.insertData(user_name_text,user_name_text);
-                if(id<=0)
-                {
-                    Message.message(getApplicationContext(),"Impossible de sauvegarder les champs!");
-                } else
-                {
-                    Message.message(getApplicationContext(),"La sauvegarde a été OK!");
-                    user_name.setText("");
-                    password.setText("");
-                    //TODO: Login WebService
+                String target_api = "user/auth/signin";
+                String[] data = new String[]{};
+                ArrayList<NameValuePair> params = new ArrayList<>();
+                params.add(new NameValuePair("name", user_name_text));
+                params.add(new NameValuePair("password", password_text));
+                ShargWS ws_test = new ShargWS("POST", target_api, params, data);
+                try {
+                    String res = ws_test.execute().get();
+                    if (res == null){
+                        new DialogHelper(LoginActivity.this).showDialog(R.layout.popup_layer, DialogHelper.DIALOG_ERROR, "Erreur d'identification ou de mot de passe.", null);
+                        return;
+                    } else {
+                        User user = ObjectUtils.FromJsonSimple(User.class, res);
+                        MStorage.MySelf.setProfile(user);
+                        Intent myIntent = new Intent(LoginActivity.this, ShargActivity.class);
+                        startActivity(myIntent);
+                    }
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
-
-            //TODO: remove ws_test
-
-            /*String target_api = "user";
-            String[] data = new String[]{"2"};
-            ShargWS ws_test = new ShargWS(target_api, data);
-            try {
-                String res = ws_test.execute().get();
-                ShargModel obj = ws_test.FromJsonDataMapping(ShargModel.class, res);
-                Log.i("ID_MODEL", obj.getId());
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }/**/
-
-            Intent myIntent = new Intent(LoginActivity.this, ShargActivity.class);
-            startActivity(myIntent);
         }
     };
 }

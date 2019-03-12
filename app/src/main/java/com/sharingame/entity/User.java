@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class User extends ShargModel {
     private String name,lastname,username,email,description;
-    private Date dateSignup;
+    private Date datesignup;
     private String role;
     private String region;
 
@@ -50,12 +50,12 @@ public class User extends ShargModel {
         this.description = description;
     }
 
-    public Date getDateSignup() {
-        return dateSignup;
+    public Date getDatesignup() {
+        return datesignup;
     }
 
-    public void setDateSignup(Date dateSignup) {
-        this.dateSignup = dateSignup;
+    public void setDatesignup(Date datesignup) {
+        this.datesignup = datesignup;
     }
 
     public String getRole() {
