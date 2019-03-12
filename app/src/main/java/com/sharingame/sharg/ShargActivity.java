@@ -70,8 +70,8 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             Parcelable[] rawMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             NdefMessage message = (NdefMessage) rawMessages[0]; // only one message transferred
-            //new DialogHelper(this).showDialog(R.layout.popup_layer,"NFC " + DialogHelper.DIALOG_INFO, new String(message.getRecords()[0].getPayload()), null);
-            Message.message(getApplicationContext(),"Onresume OK action intent: " + new String(message.getRecords()[0].getPayload()));
+            new DialogHelper(this).showDialog(R.layout.popup_layer,"NFC " + DialogHelper.DIALOG_INFO,"DATA: " +  new String(message.getRecords()[0].getPayload()), null);
+            //Message.message(getApplicationContext(),"Onresume OK action intent: " + new String(message.getRecords()[0].getPayload()));
         } else{
             Log.w("NFC_WAITING","...");
         }
@@ -116,7 +116,7 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case MESSAGE_SENT:
-                    Toast.makeText(getApplicationContext(), "Message sent!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Message envoyé!", Toast.LENGTH_LONG).show();
                     break;
             }
         }

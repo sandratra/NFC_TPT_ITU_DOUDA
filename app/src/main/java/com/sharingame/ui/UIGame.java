@@ -5,26 +5,34 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
+import com.sharingame.entity.Game;
 import com.sharingame.sharg.R;
 
 /**
  * TODO: document your custom view class.
  */
-public class UIGame extends View {
+public class UIGame extends View implements View.OnClickListener {
     private String label; // TODO: use a default from R.string...
     private int labelColor = Color.WHITE; // TODO: use a default from R.color...
     private float iconSize = 0; // TODO: use a default from R.dimen...
     private Drawable icon;
+    private int iconColor = Color.WHITE;
     private int textSize = 28;
 
     private TextPaint mTextPaint;
     private float mTextWidth;
     private float mTextHeight;
+
+    private Game game;
 
     public UIGame(Context context) {
         super(context);
@@ -52,6 +60,7 @@ public class UIGame extends View {
 
         if (a.hasValue(R.styleable.UIGame_mIcon)) {
             icon = a.getDrawable(R.styleable.UIGame_mIcon);
+            DrawableCompat.setTint(icon, iconColor);
             icon.setCallback(this);
         }
 
@@ -64,6 +73,7 @@ public class UIGame extends View {
 
         // Update TextPaint and text measurements from attributes
         invalidateTextPaintAndMeasurements();
+        setOnClickListener(this);
     }
 
     private void invalidateTextPaintAndMeasurements() {
@@ -100,6 +110,11 @@ public class UIGame extends View {
         }
     }
 
+    public void setGame(Game game){
+        this.game = game;
+        setLabel(this.game.getTitle());
+    }
+
     public String getLabel() {
         return label;
     }
@@ -132,5 +147,10 @@ public class UIGame extends View {
 
     public void setIcon(Drawable icon) {
         this.icon = icon;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Toast.makeText(getContext(), "Game Title: " + game.getTitle(), Toast.LENGTH_SHORT).show();
     }
 }

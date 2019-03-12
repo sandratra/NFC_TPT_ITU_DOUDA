@@ -8,10 +8,11 @@
         android:id="@+id/ui_game_element"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginBottom="1dp"
         android:background="@color/colorPrimaryDark"
         app:labelColor="#FFFFFF"
         app:iconSize="60dp"
-        app:mIcon="@android:drawable/ic_menu_add"
+        app:mIcon="@drawable/ic_gamepad_black_24dp"
         app:label="UIGAME_TITLE"/>
 
 </FrameLayout>

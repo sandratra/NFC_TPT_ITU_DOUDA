@@ -2,10 +2,10 @@
     <string name="empty_string"></string>
     <string name="app_name">SharinGame</string>
     <string name="title_home">Accueil</string>
-    <string name="title_profile">Profile utilisateur</string>
+    <string name="title_profile">Profil utilisateur</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notification">Notifications</string>
     <string name="title_news">Nouveautés</string>
-    <string name="title_messaging">Discution</string>
+    <string name="title_messaging">Discussion</string>
     <string name="subtitle_first_games">Jeux à la une</string>
 </resources>

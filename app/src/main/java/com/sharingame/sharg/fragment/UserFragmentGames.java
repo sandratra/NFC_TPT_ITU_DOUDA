@@ -30,24 +30,6 @@ public class UserFragmentGames extends Fragment {
         vg.add(new Game("DOTA 2", ""));
         vg.add(new Game("League of Legend", ""));
         vg.add(new Game("Apex Legend", ""));
-        vg.add(new Game("DOTA 2", ""));
-        vg.add(new Game("League of Legend", ""));
-        vg.add(new Game("Apex Legend", ""));
-        vg.add(new Game("DOTA 2", ""));
-        vg.add(new Game("League of Legend", ""));
-        vg.add(new Game("Apex Legend", ""));
-        vg.add(new Game("DOTA 2", ""));
-        vg.add(new Game("League of Legend", ""));
-        vg.add(new Game("Apex Legend", ""));
-        vg.add(new Game("DOTA 2", ""));
-        vg.add(new Game("League of Legend", ""));
-        vg.add(new Game("Apex Legend", ""));
-        vg.add(new Game("DOTA 2", ""));
-        vg.add(new Game("League of Legend", ""));
-        vg.add(new Game("Apex Legend", ""));
-        vg.add(new Game("DOTA 2", ""));
-        vg.add(new Game("League of Legend", ""));
-        vg.add(new Game("Apex Legend", ""));
     }
 
     @Override
@@ -69,7 +51,7 @@ public class UserFragmentGames extends Fragment {
         for(int i=0;i<games.size();i++){
             View v = getLayoutInflater().inflate(R.layout.sample_uigame, null);
             UIGame uig = v.findViewById(R.id.ui_game_element);
-            uig.setLabel(games.get(i).getTitle());
+            uig.setGame(games.get(i));
             scrollView.addView(v, i, new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.MATCH_PARENT));
         }
     }
