@@ -1,6 +1,5 @@
 package com.sharingame.sharg;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
@@ -21,7 +20,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.sharingame.data.MStorage;
 import com.sharingame.entity.User;
@@ -32,6 +30,10 @@ import com.sharingame.utility.DialogHelper;
 import com.sharingame.utility.Message;
 import com.sharingame.utility.NFCHelper;
 import com.sharingame.utility.ObjectUtils;
+import com.sharingame.utility.ShargWS;
+import com.sharingame.viewmodel.ViewGame;
+
+import java.util.concurrent.ExecutionException;
 
 public class ShargActivity extends AppCompatActivity implements NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
 
@@ -43,8 +45,7 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
 
     //region Overrides
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         mViewPager = findViewById(R.id.container);
@@ -72,14 +73,16 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
         Log.i("INFO", "ONRESUME: " + intent.getAction());
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             Parcelable[] rawMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            NdefMessage message = (NdefMessage) rawMessages[0]; // only one message transferred
-            //new DialogHelper(this).showDialog(R.layout.popup_layer,"NFC " + DialogHelper.DIALOG_INFO,"DATA: " +  new String(message.getRecords()[0].getPayload()), null);
-            mViewPager.setCurrentItem(2,false);
-            //tabLayout = findViewById(R.id.fragment_user_tab_layout);
-            //tabLayout.clearOnTabSelectedListeners();
-            //tabLayout.addOnTabSelectedListener(onTabLayoutListener);
-            UserFragmentProfile.selectedUserProfil = ObjectUtils.FromJsonSimple(User.class, new String(message.getRecords()[0].getPayload()));
-            initSelectedTab(0);
+            final NdefMessage message = (NdefMessage) rawMessages[0]; // only one message transferred
+            final DialogHelper dh =new DialogHelper(this);
+            dh.showDialog(R.layout.popup_layer, "NFC " + DialogHelper.DIALOG_INFO, "Une requête a été reçue via la NFC("+new String(message.getRecords()[0].getPayload())+"). Touchez OK pour traiter les données.", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    manageNfcData(message);
+                    dh.dismiss();
+                }
+            });
+
         } else{
             Log.w("NFC_WAITING","...");
         }
@@ -94,7 +97,7 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
     @Override
     public NdefMessage createNdefMessage(NfcEvent event) {
         Log.i("INFO", "createNdefMessage");
-        NdefMessage msg = NFCHelper.createMyNdefMessage(ObjectUtils.ToJsonSimple(MStorage.MySelf.getProfile()), "application/org.sharg.nfc.tpt");
+        NdefMessage msg = NFCHelper.createMyNdefMessage(ObjectUtils.ToJsonSimple(MStorage.MySelf.getProfile().getId()), "application/org.sharg.nfc.tpt");
         return msg;
     }
 
@@ -161,7 +164,20 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
                     tabLayout = findViewById(R.id.fragment_user_tab_layout);
                     tabLayout.clearOnTabSelectedListeners();
                     tabLayout.addOnTabSelectedListener(onTabLayoutListener);
-                    UserFragmentProfile.selectedUserProfil = MStorage.MySelf.getProfile();
+
+
+                    String target_api = "profil";
+                    String[] data = new String[]{MStorage.MySelf.getProfile().getId()};
+                    ShargWS ws = new ShargWS("GET", target_api, null, data);
+                    try {
+                        String res = ws.execute().get();
+                        UserFragmentProfile.selectedUserProfil = ObjectUtils.FromJsonSimple(ViewGame.class, res);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
                     initSelectedTab(0);
                     return true;
             }
@@ -187,6 +203,47 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
     };
     //endregion
 
+    void manageNfcData(NdefMessage message){
+        mViewPager = findViewById(R.id.container);
+        mViewPager.setCurrentItem(2,false);
+        String uid = new String(message.getRecords()[0].getPayload()).replace("\"","");
+
+        String target_api = "profil";
+        String[] data = new String[]{uid};
+        ShargWS ws = new ShargWS("GET", target_api, null, data);
+        try {
+            String res = ws.execute().get();
+            Log.i("-----NFC_RES-----------", res);
+            UserFragmentProfile.selectedUserProfil = ObjectUtils.FromJsonSimple(ViewGame.class, res);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        tabLayout = findViewById(R.id.fragment_user_tab_layout);
+        tabLayout.clearOnTabSelectedListeners();
+        tabLayout.addOnTabSelectedListener(onTabLayoutListener);
+        initSelectedTab(0);
+    }
+    /*
+        mViewPager = findViewById(R.id.container);
+        mViewPager.setCurrentItem(2,false);
+        User user = ObjectUtils.FromJsonSimple(User.class, new String(message.getRecords()[0].getPayload()));
+        String target_api = "profil";
+        String[] data = new String[]{user.getId()};
+        ShargWS ws_test = new ShargWS("GET", target_api, null, data);
+        try {
+            String res = ws_test.execute().get();
+            UserFragmentProfile.selectedUserProfil = ObjectUtils.FromJsonSimple(User.class, res);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        tabLayout = findViewById(R.id.fragment_user_tab_layout);
+        tabLayout.clearOnTabSelectedListeners();
+        tabLayout.addOnTabSelectedListener(onTabLayoutListener);
+        initSelectedTab(0);
+     */
+
     void processIntent(Intent intent) {
         Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
         // only one message sent during the beam
@@ -206,6 +263,9 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
                 fragment = new UserFragmentGames();
                 break;
         }
+
+
+
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_user_layout, fragment);

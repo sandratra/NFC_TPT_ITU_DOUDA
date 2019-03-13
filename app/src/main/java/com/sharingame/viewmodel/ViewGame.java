@@ -5,11 +5,25 @@ import com.sharingame.entity.Image;
 import com.sharingame.entity.Platform;
 import com.sharingame.entity.Tag;
 import com.sharingame.entity.Technologies;
+import com.sharingame.entity.User;
 
 public class ViewGame {
-    private Game game;
-    private Image[] images;
-    private Tag[] tags;
-    private Platform[] platforms;
-    private Technologies[] technologies;
+    private User user;
+    private Game[] games;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Game[] getGames() {
+        return games;
+    }
+
+    public void setGames(Game[] games) {
+        this.games = games;
+    }
 }

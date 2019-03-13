@@ -14,13 +14,14 @@ import android.widget.TextView;
 import com.sharingame.data.MStorage;
 import com.sharingame.entity.User;
 import com.sharingame.sharg.R;
+import com.sharingame.viewmodel.ViewGame;
 
 public class UserFragmentProfile extends Fragment {
 
-    TextView pseudo, email, description, fullName;
+    TextView pseudo, email, description, fullName, dateMember;
     AppCompatButton addFriendButton;
 
-    public static User selectedUserProfil = null;
+    public static ViewGame selectedUserProfil = null;
 
     public UserFragmentProfile(){
 
@@ -39,17 +40,19 @@ public class UserFragmentProfile extends Fragment {
         email = v.findViewById(R.id.profile_user_email);
         description = v.findViewById(R.id.profile_user_description);
         fullName = v.findViewById(R.id.profile_user_name);
+        dateMember = v.findViewById(R.id.profile_user_signup);
         addFriendButton = v.findViewById(R.id.profile_user_btn_add_friend);
         loadData(selectedUserProfil);
         return v;
     }
 
-    public void loadData(User user){
-        pseudo.setText(user.getUsername());
-        email.setText(user.getEmail());
-        description.setText(user.getDescription());
-        fullName.setText(user.getName() + " " + user.getLastname());
-        addFriendButton.setEnabled(!isMyFriend(user));
+    public void loadData(ViewGame user){
+        pseudo.setText(user.getUser().getUsername());
+        email.setText(user.getUser().getEmail());
+        description.setText(user.getUser().getDescription());
+        dateMember.setText("Membre depuis " + user.getUser().getFormatedDate());
+        fullName.setText(user.getUser().getName() + " " + user.getUser().getLastname());
+        addFriendButton.setEnabled(!isMyFriend(user.getUser()));
     }
 
     public boolean isMyFriend(User user){

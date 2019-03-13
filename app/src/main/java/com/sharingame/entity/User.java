@@ -2,6 +2,8 @@ package com.sharingame.entity;
 
 import android.support.annotation.Nullable;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class User extends ShargModel {
@@ -72,6 +74,11 @@ public class User extends ShargModel {
 
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    public String getFormatedDate(){
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.format(datesignup);
     }
 
     @Override

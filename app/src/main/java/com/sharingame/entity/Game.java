@@ -10,6 +10,9 @@ public class Game extends ShargModel {
     private boolean validAdmin;
     private String link;
     private int usersId;
+    private Technologies[] technologies;
+    private Tag[] tags;
+    private Platform[] platforms;
 
     public Game(String title, String description){
         this.setTitle(title);
@@ -62,5 +65,29 @@ public class Game extends ShargModel {
 
     public void setUsersId(int usersId) {
         this.usersId = usersId;
+    }
+
+    public Technologies[] getTechnologies() {
+        return technologies;
+    }
+
+    public void setTechnologies(Technologies[] technologies) {
+        this.technologies = technologies;
+    }
+
+    public Tag[] getTags() {
+        return tags;
+    }
+
+    public void setTags(Tag[] tags) {
+        this.tags = tags;
+    }
+
+    public Platform[] getPlatforms() {
+        return platforms;
+    }
+
+    public void setPlatforms(Platform[] platforms) {
+        this.platforms = platforms;
     }
 }

@@ -58,19 +58,19 @@ public class ShargWS extends AsyncTask<String, String, String> {
             connection.setReadTimeout(10000);
             connection.setConnectTimeout(15000);
             connection.setRequestMethod(requestMode);
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
             if(requestMode.equals("POST")) {
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
                 OutputStream os = connection.getOutputStream();
                 writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
                 writer.write(getQuery(this.params));
                 writer.flush();
                 writer.close();
                 os.close();
+                Log.i("------CODE------", connection.getResponseCode()+"");
+                if(connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND)
+                    return null;
             }
-            Log.i("------CODE------", connection.getResponseCode()+"");
-            if(connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND)
-                return null;
             connection.connect();
 
             InputStream stream = connection.getInputStream();

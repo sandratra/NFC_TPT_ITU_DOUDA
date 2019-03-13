@@ -18,18 +18,14 @@ import com.sharingame.ui.UIGame;
 import com.sharingame.viewmodel.ViewGame;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class UserFragmentGames extends Fragment {
 
     LinearLayout scrollView;
 
-    private List<Game> vg = new ArrayList<>();
-
     public UserFragmentGames(){
-        vg.add(new Game("DOTA 2", ""));
-        vg.add(new Game("League of Legend", ""));
-        vg.add(new Game("Apex Legend", ""));
     }
 
     @Override
@@ -42,7 +38,7 @@ public class UserFragmentGames extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_user_games, container, false);
         scrollView = v.findViewById(R.id.scroll_game_list);
-        refreshGameList(vg);
+        refreshGameList(Arrays.asList(UserFragmentProfile.selectedUserProfil.getGames()));
         return v;
     }
 
