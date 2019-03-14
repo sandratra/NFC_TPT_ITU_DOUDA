@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="_transparent">#00ffffff</color>
+    <color name="mask">#6F000000</color>
     <color name="colorPrimary">#e55600</color>
     <color name="colorPrimaryDark">#001a29</color>
     <color name="colorAccent">#e55600</color>
-    <color name="colorTextDefault">#efefef</color>
+    <color name="colorTextDefault">#EFEFEF</color>
     <color name="colorTextSecondary">#7c7c7c</color>
-    <color name="colorTextFade">#005ea1</color>
+    <color name="colorTextFade">#005EA1</color>
     <color name="colorTextLink">#e55600</color>
     <color name="colorButton">#006974</color>
 </resources>

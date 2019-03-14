@@ -7,6 +7,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
@@ -16,11 +19,14 @@ import android.widget.Toast;
 
 import com.sharingame.entity.Game;
 import com.sharingame.sharg.R;
+import com.sharingame.sharg.ShargActivity;
+import com.sharingame.sharg.fragment.UserFragmentGameDetails;
 
 /**
  * TODO: document your custom view class.
  */
 public class UIGame extends View implements View.OnClickListener {
+    public static Game SELECTED_GAME = null;
     private String label; // TODO: use a default from R.string...
     private int labelColor = Color.WHITE; // TODO: use a default from R.color...
     private float iconSize = 0; // TODO: use a default from R.dimen...
@@ -151,6 +157,13 @@ public class UIGame extends View implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(getContext(), "Game Title: " + game.getTitle(), Toast.LENGTH_SHORT).show();
+        SELECTED_GAME = game;
+        UserFragmentGameDetails fragmentDetails = new UserFragmentGameDetails();
+        FragmentManager fm = ShargActivity.GetInstance().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_user_layout, fragmentDetails);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.commit();
+        //Toast.makeText(getContext(), "Game Title: " + game.getTitle(), Toast.LENGTH_SHORT).show();
     }
 }

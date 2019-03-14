@@ -22,7 +22,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.sharingame.data.MStorage;
-import com.sharingame.entity.User;
 import com.sharingame.sharg.fragment.UserFragmentGames;
 import com.sharingame.sharg.fragment.UserFragmentProfile;
 import com.sharingame.utility.CustomPagerAdapter;
@@ -37,16 +36,23 @@ import java.util.concurrent.ExecutionException;
 
 public class ShargActivity extends AppCompatActivity implements NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
 
+    private static ShargActivity _instance = null;
+
     ViewPager mViewPager;
     NfcAdapter nfcAdapter;
     TabLayout tabLayout;
 
     private static final int MESSAGE_SENT = 1;
 
+    public static ShargActivity GetInstance(){
+        return _instance;
+    }
+
     //region Overrides
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        _instance = this;
         setContentView(R.layout.main_activity);
         mViewPager = findViewById(R.id.container);
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -225,24 +231,6 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
         tabLayout.addOnTabSelectedListener(onTabLayoutListener);
         initSelectedTab(0);
     }
-    /*
-        mViewPager = findViewById(R.id.container);
-        mViewPager.setCurrentItem(2,false);
-        User user = ObjectUtils.FromJsonSimple(User.class, new String(message.getRecords()[0].getPayload()));
-        String target_api = "profil";
-        String[] data = new String[]{user.getId()};
-        ShargWS ws_test = new ShargWS("GET", target_api, null, data);
-        try {
-            String res = ws_test.execute().get();
-            UserFragmentProfile.selectedUserProfil = ObjectUtils.FromJsonSimple(User.class, res);
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        tabLayout = findViewById(R.id.fragment_user_tab_layout);
-        tabLayout.clearOnTabSelectedListeners();
-        tabLayout.addOnTabSelectedListener(onTabLayoutListener);
-        initSelectedTab(0);
-     */
 
     void processIntent(Intent intent) {
         Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
@@ -263,14 +251,10 @@ public class ShargActivity extends AppCompatActivity implements NfcAdapter.Creat
                 fragment = new UserFragmentGames();
                 break;
         }
-
-
-
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_user_layout, fragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.commit();
-        //new DialogHelper(this).showDialog(R.layout.popup_layer,"TEST_POPUP_HELPER " + DialogHelper.DIALOG_INFO, "Mande ve izy zany?", null);
     }
 }

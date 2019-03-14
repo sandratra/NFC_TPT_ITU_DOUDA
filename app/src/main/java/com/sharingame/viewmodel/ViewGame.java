@@ -8,6 +8,8 @@ import com.sharingame.entity.Technologies;
 import com.sharingame.entity.User;
 
 public class ViewGame {
+
+    private int isfriend;
     private User user;
     private Game[] games;
 
@@ -25,5 +27,13 @@ public class ViewGame {
 
     public void setGames(Game[] games) {
         this.games = games;
+    }
+
+    public int getIsFriend(){
+        return isfriend;
+    }
+
+    public void setIsFriend(int isFriend){
+        this.isfriend = isFriend;
     }
 }

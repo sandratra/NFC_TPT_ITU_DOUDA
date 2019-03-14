@@ -13,8 +13,13 @@
         <item name="android:textColorLink">@color/colorTextLink</item>
     </style>
 
-    <style name="AppTheme.ButtonOne" parent="Widget.AppCompat.Button.Borderless.Colored">
+    <style name="AppTheme.ButtonLight" parent="Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:colorButtonNormal">@color/colorButton</item>
+        <item name="android:textColor">@color/colorTextDefault</item>
+    </style>
+
+    <style name="AppTheme.ButtonDark" parent="Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:colorButtonNormal">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/colorTextDefault</item>
     </style>
 

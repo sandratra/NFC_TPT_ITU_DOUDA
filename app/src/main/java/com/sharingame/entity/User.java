@@ -7,6 +7,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class User extends ShargModel {
+
+    public static final int NOT_FRIEND = 0;
+    public static final int IS_FRIEND = 10;
+    public static final int IS_ASKED = 6;
+    public static final int IS_ASKING = 5;
+
     private String name,lastname,username,email,description;
     private Date datesignup;
     private String role;

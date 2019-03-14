@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +13,14 @@ import android.widget.TextView;
 import com.sharingame.data.MStorage;
 import com.sharingame.entity.User;
 import com.sharingame.sharg.R;
+import com.sharingame.utility.ShargWS;
 import com.sharingame.viewmodel.ViewGame;
 
 public class UserFragmentProfile extends Fragment {
 
     TextView pseudo, email, description, fullName, dateMember;
     AppCompatButton addFriendButton;
+    AppCompatButton confirmFriendButton;
 
     public static ViewGame selectedUserProfil = null;
 
@@ -42,6 +43,9 @@ public class UserFragmentProfile extends Fragment {
         fullName = v.findViewById(R.id.profile_user_name);
         dateMember = v.findViewById(R.id.profile_user_signup);
         addFriendButton = v.findViewById(R.id.profile_user_btn_add_friend);
+        confirmFriendButton = v.findViewById(R.id.profile_user_btn_confirm_friend);
+        addFriendButton.setOnClickListener(on_add_friend);
+        confirmFriendButton.setOnClickListener(on_confirm_friend);
         loadData(selectedUserProfil);
         return v;
     }
@@ -52,30 +56,36 @@ public class UserFragmentProfile extends Fragment {
         description.setText(user.getUser().getDescription());
         dateMember.setText("Membre depuis " + user.getUser().getFormatedDate());
         fullName.setText(user.getUser().getName() + " " + user.getUser().getLastname());
-        addFriendButton.setEnabled(!isMyFriend(user.getUser()));
+        addFriendButton.setVisibility(isMyFriend(user)? View.GONE : View.VISIBLE);
+        confirmFriendButton.setVisibility(user.getIsFriend() == User.IS_ASKED ? View.VISIBLE : View.GONE);
     }
 
-    public boolean isMyFriend(User user){
-        if(user.equals(MStorage.MySelf.getProfile()))
+    public boolean isMyFriend(ViewGame user){
+        if(user.getUser().equals(MStorage.MySelf.getProfile()))
             return true;
         //TODO: Compare friend status
-        Log.w("-------", "Must check if this user is my friend or not");
-        return false;
+        return (user.getIsFriend() == User.IS_FRIEND);
     }
 
     public View.OnClickListener on_add_friend = new View.OnClickListener(){
         public void onClick(View v){
-            //TODO: Send add friend request
-            /*String target_api = "user";
-            String[] data = new String[]{"2"};
-            ShargWS ws_test = new ShargWS(target_api, data);
-            try {
-                String res = ws_test.execute().get();
-                ShargModel obj = ws_test.FromJsonDataMapping(ShargModel.class, res);
-                Log.i("ID_MODEL", obj.getId());
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }/**/
+            String target_api = "friend/add";
+            String[] data = new String[]{MStorage.MySelf.getProfile().getId(), selectedUserProfil.getUser().getId()};
+            ShargWS ws_test = new ShargWS("GET", target_api, null, null);
+            ws_test.execute();
+            addFriendButton.setVisibility(View.GONE);
+            confirmFriendButton.setVisibility(View.GONE);
+        }
+    };
+
+    public View.OnClickListener on_confirm_friend = new View.OnClickListener(){
+        public void onClick(View v){
+            String target_api = "friend/confirm";
+            String[] data = new String[]{MStorage.MySelf.getProfile().getId(), selectedUserProfil.getUser().getId()};
+            ShargWS ws_test = new ShargWS("GET", target_api, null, null);
+            ws_test.execute();
+            addFriendButton.setVisibility(View.GONE);
+            confirmFriendButton.setVisibility(View.GONE);
         }
     };
 }

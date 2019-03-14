@@ -1,6 +1,5 @@
 package com.sharingame.entity;
 
-import java.lang.reflect.GenericArrayType;
 import java.util.Date;
 
 public class Game extends ShargModel {
@@ -10,9 +9,9 @@ public class Game extends ShargModel {
     private boolean validAdmin;
     private String link;
     private int usersId;
-    private Technologies[] technologies;
-    private Tag[] tags;
-    private Platform[] platforms;
+    private Technologies[] Technologies;
+    private Tag[] Tags;
+    private Platform[] Platforms;
 
     public Game(String title, String description){
         this.setTitle(title);
@@ -68,26 +67,26 @@ public class Game extends ShargModel {
     }
 
     public Technologies[] getTechnologies() {
-        return technologies;
+        return Technologies;
     }
 
     public void setTechnologies(Technologies[] technologies) {
-        this.technologies = technologies;
+        this.Technologies = technologies;
     }
 
     public Tag[] getTags() {
-        return tags;
+        return Tags;
     }
 
     public void setTags(Tag[] tags) {
-        this.tags = tags;
+        this.Tags = tags;
     }
 
     public Platform[] getPlatforms() {
-        return platforms;
+        return Platforms;
     }
 
     public void setPlatforms(Platform[] platforms) {
-        this.platforms = platforms;
+        this.Platforms = platforms;
     }
 }

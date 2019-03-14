@@ -2,6 +2,7 @@ package com.sharingame.utility;
 
 import android.os.AsyncTask;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -34,9 +35,12 @@ public class ShargWS extends AsyncTask<String, String, String> {
     private String requestMode;
     private ArrayList<NameValuePair> params = null;
 
-    public ShargWS(String requestMode, String api, ArrayList<NameValuePair> params, String...data){
+    public ShargWS(String requestMode, String api, @Nullable ArrayList<NameValuePair> params, @Nullable String...data){
         this.api = api;
-        this.data = data;
+        if(data == null)
+            this.data = new String[]{};
+        else
+            this.data = data;
         this.requestMode = requestMode;
         this.params = params;
     }

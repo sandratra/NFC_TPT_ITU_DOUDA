@@ -1,6 +1,5 @@
 package com.sharingame.sharg.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,16 +7,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.sharingame.entity.Game;
 import com.sharingame.sharg.R;
 import com.sharingame.ui.UIGame;
-import com.sharingame.viewmodel.ViewGame;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
